@@ -1,7 +1,9 @@
+#KMS Key
 data "aws_kms_key" "by_alias" {
   key_id = "alias/alef"
 }
 
+#security group for ec2
 resource "aws_security_group" "allow_http" {
   name        = "allow_http"
   description = "Allow HTTP/S inbound traffic"
@@ -43,6 +45,7 @@ resource "aws_security_group" "allow_http" {
   }
 }
 
+#Launch template
 resource "aws_launch_template" "template" {
   name_prefix   = var.template_name
   image_id      = var.ami_id
@@ -77,6 +80,7 @@ resource "aws_launch_template" "template" {
   user_data = filebase64("codedeployagent.sh")
 }
 
+#autoscaling group
 resource "aws_autoscaling_group" "alef-group" {
   name = "alef-asg-group"
   max_size = 3
